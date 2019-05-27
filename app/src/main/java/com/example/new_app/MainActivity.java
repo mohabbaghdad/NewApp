@@ -48,14 +48,22 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
                 customArray currentNews = mAdapter.getItem(position);
                 Uri newsUri = Uri.parse(currentNews.getmUrl());
                 Intent websiteIntent = new Intent(Intent.ACTION_VIEW, newsUri);
-                startActivity(websiteIntent);
+                if (websiteIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(websiteIntent);
+                }
             }
         });
     }
 
     @Override
     public Loader<List<customArray>> onCreateLoader(int i, Bundle bundle) {
-        return new NewsLoader(this, USGS_REQUEST_URL);
+        final String REQUEST_URL = "http://content.guardianapis.com/search?";
+        Uri baseUri = Uri.parse(REQUEST_URL);
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+        uriBuilder.appendQueryParameter("q","debates");
+        uriBuilder.appendQueryParameter("api-key","test");
+        uriBuilder.appendQueryParameter("show-tags","contributor");
+        return new NewsLoader(this, uriBuilder.build().toString());
     }
 
     @Override
