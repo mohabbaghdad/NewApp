@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">New-App</string>
+    <string name="no_connetion">No Connection</string>
+    <string name="no_News">No News</string>
+</resources>
